@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio Version=3.0.90.24 SP06?>
+<Library Version="1.00.0" Description="IEC Check w/ Advanced Debugging Data" xmlns="http://br-automation.co.at/AS/Library">
+  <Files>
+    <File Description="Exported functions and function blocks">AdvIecChk.fun</File>
+    <File Description="Implementation file">AdvIecChk.st</File>
+  </Files>
+  <Dependencies>
+    <Dependency ObjectName="Sys_Lib" />
+    <Dependency ObjectName="AsString" />
+  </Dependencies>
+</Library>
