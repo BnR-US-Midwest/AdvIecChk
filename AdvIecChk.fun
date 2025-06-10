@@ -145,7 +145,7 @@ END_FUNCTION
 
 FUNCTION StrCatToMaxLen : UDINT (*Concatenates two strings, but keeps the result under the max allowed length. Returns the length of the new string*)
 	VAR_INPUT
-		pDest : REFERENCE TO UDINT; (*Address of the destination string (will be modified)*)
+		pDest : UDINT; (*Address of the destination string (will be modified)*)
 		pSrc : UDINT; (*Address of the source string (not modified)*)
 		MaxLength : UDINT; (*Maximum character length of the destination string*)
 	END_VAR

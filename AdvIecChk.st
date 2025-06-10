@@ -17,7 +17,7 @@ FUNCTION CheckDivSint
     
     IF divisor=0 THEN
         CheckDivSint := 1;
-        MakeEntry(55555,divisor,'Divide by Zero - SINT');
+        MakeEntry(55555,divisor,'SINT div by 0');
     ELSE
         CheckDivSint := divisor;
     END_IF
@@ -30,7 +30,7 @@ FUNCTION CheckDivUsint
     
     IF divisor=0 THEN
         CheckDivUsint := 1;
-        MakeEntry(55555,divisor,'Divide by Zero - USINT');
+        MakeEntry(55555,divisor,'USINT div by 0');
     ELSE
         CheckDivUsint := divisor;
     END_IF
@@ -43,7 +43,7 @@ FUNCTION CheckDivInt
     
     IF divisor=0 THEN
         CheckDivInt := 1;
-        MakeEntry(55555,divisor,'Divide by Zero - INT');
+        MakeEntry(55555,divisor,'INT div by 0');
     ELSE
         CheckDivInt := divisor;
     END_IF
@@ -56,7 +56,7 @@ FUNCTION CheckDivUint
     
     IF divisor=0 THEN
         CheckDivUint := 1;
-        MakeEntry(55555,divisor,'Divide by Zero - UINT');
+        MakeEntry(55555,divisor,'UINT div by 0');
     ELSE
         CheckDivUint := divisor;
     END_IF
@@ -69,7 +69,7 @@ FUNCTION CheckDivDint
     
     IF divisor=0 THEN
         CheckDivDint := 1;
-        MakeEntry(55555,divisor,'Divide by Zero - DINT');
+        MakeEntry(55555,divisor,'DINT div by 0');
     ELSE
         CheckDivDint := divisor;
     END_IF
@@ -82,7 +82,7 @@ FUNCTION CheckDivUdint
     
     IF divisor=0 THEN
         CheckDivUdint := 1;
-        MakeEntry(55555,divisor,'Divide by Zero - UDINT');
+        MakeEntry(55555,divisor,'UDINT div by 0');
     ELSE
         CheckDivUdint := divisor;
     END_IF
@@ -93,7 +93,7 @@ END_FUNCTION
 FUNCTION CheckDivReal
     IF divisor=0 THEN
         CheckDivReal := 1;
-        MakeEntry(55555,0,'Divide by Zero - REAL');
+        MakeEntry(55555,0,'REAL div by 0');
     ELSE
         CheckDivReal := divisor;
     END_IF
@@ -104,7 +104,7 @@ END_FUNCTION
 FUNCTION CheckDivLReal
     IF divisor=0 THEN
         CheckDivLReal := 1;
-        MakeEntry(55555,0,'Divide by Zero - LREAL');
+        MakeEntry(55555,0,'LREAL div by 0');
     ELSE
         CheckDivLReal := divisor;
     END_IF
@@ -250,7 +250,7 @@ END_FUNCTION
 (* Called before (read) accessing a memory address using a dynamic variable (ADR). Always returns 0 *)
 FUNCTION CheckReadAccess
     IF address=0 THEN
-        MakeEntry(55555,address,'Attempt to read from address of zero');
+        MakeEntry(55555,address,'Try to read from ADR of zero');
     END_IF
 
     CheckReadAccess:=0;
@@ -259,7 +259,7 @@ END_FUNCTION
 (* Called before (write) accessing a memory address using a dynamic variable (ADR). Always returns 0 *)
 FUNCTION CheckWriteAccess
     IF address=0 THEN
-        MakeEntry(55555,address,'Attempt to write to address of zero');
+        MakeEntry(55555,address,'Try to write to ADR of zero');
     END_IF
 
     CheckWriteAccess:=0;
@@ -270,10 +270,12 @@ FUNCTION MakeEntry
     status_name := ST_name(0,ADR(taskname),ADR(group));
     
     StrCatToMaxLen(ADR(out_text),ADR(text), 32); // Errxwarning() errorstring max 32 characters! See AS Help
-    StrCatToMaxLen(ADR(out_text),ADR(' in task "'), 32);
+    StrCatToMaxLen(ADR(out_text),ADR(' > task '), 32);
     
     IF status_name = 0 THEN
+        StrCatToMaxLen(ADR(out_text),ADR('"'), 32);
         StrCatToMaxLen(ADR(out_text),ADR(taskname), 32);
+        StrCatToMaxLen(ADR(out_text),ADR('"'), 32);
     ELSE
         StrCatToMaxLen(ADR(out_text),ADR('UNKNOWN'), 32);
     END_IF;
