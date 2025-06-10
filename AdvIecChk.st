@@ -11,260 +11,299 @@ Authors:
 
 ************************************************************************************)
 
-(* Check divisor for DINT and UDINT division *)
-FUNCTION CheckDivDWord
-	IF divisor=0 THEN
-		CheckDivDWord:=1;
-		MakeEntry(55555,divisor,'Divide by Zero - Double Word');
-	
-		//Note: DarjiV, creating a pagefault on purpose to get the backtrace data
-		//				This function does not provide consistant back
-		memcpy(1,1,1);
-
-	ELSE
-		CheckDivDWord:=divisor;
-	END_IF
-END_FUNCTION
-
-(* Check divisor for INT and UINT division *)
-FUNCTION CheckDivWord
-	IF divisor=0 THEN
-		CheckDivWord:=1;
-		MakeEntry(55555,divisor,'Divide by Zero - Word');
-		
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-	ELSE
-		CheckDivWord:=divisor;
-	END_IF
-END_FUNCTION
-
-(* Check divisor for SINT and USINT division *)
-FUNCTION CheckDivByte
-	IF divisor=0 THEN
-		CheckDivByte:=1;
-		MakeEntry(55555,divisor,'Divide by Zero - Byte');
-		
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-	ELSE
-		CheckDivByte:=divisor;
-	END_IF
-END_FUNCTION
-
-(* Check divisor for REAL division *)
-FUNCTION CheckDivReal
-	IF divisor=0 THEN
-		CheckDivReal:=1;
-		MakeEntry(55555,0,'Divide by Zero - Real');
-		
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-	ELSE
-		CheckDivReal:=divisor;
-	END_IF
-END_FUNCTION
-
-(* Check divisor for LREAL division *)
-FUNCTION CheckDivLReal
-	IF divisor=0 THEN
-		CheckDivLReal:=1;
-		MakeEntry(55555,0,'Divide by Zero - Long Real');
-		
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-	ELSE
-		CheckDivLReal:=divisor;
-	END_IF
-END_FUNCTION
-
-(* Check range for enumeration *)
-FUNCTION CheckRange
-	IF value < lower THEN
-		CheckRange := lower;
-		
-		itoa(lower, ADR(LowString));
-		itoa(upper, ADR(UpString));
-		itoa(value, ADR(IndexString));
-		strcpy(ADR(text),ADR('ENUM-Check Low. Value '));
-		strcat(ADR(text),ADR(IndexString));
-		strcat(ADR(text),ADR(' is outside ['));
-		strcat(ADR(text),ADR(LowString));
-		strcat(ADR(text),ADR('..'));
-		strcat(ADR(text),ADR(UpString));
-		strcat(ADR(text),ADR(']'));
-		MakeEntry(55555,value,text);
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-		
-	ELSIF value > upper THEN
-		CheckRange := upper;
-		
-		itoa(lower, ADR(LowString));
-		itoa(upper, ADR(UpString));
-		itoa(value, ADR(IndexString));
-		strcpy(ADR(text),ADR('ENUM-Check High. Value '));
-		strcat(ADR(text),ADR(IndexString));
-		strcat(ADR(text),ADR(' is outside ['));
-		strcat(ADR(text),ADR(LowString));
-		strcat(ADR(text),ADR('..'));
-		strcat(ADR(text),ADR(UpString));
-		strcat(ADR(text),ADR(']'));
-		MakeEntry(55555,value,text);
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-	ELSE
-		CheckRange := value;
-	END_IF
-END_FUNCTION
-
-(* Check range for subrange of signed data types *)
-FUNCTION CheckSignedSubrange
-	IF value < lower THEN
-		CheckSignedSubrange := lower;
-		
-		itoa(lower, ADR(LowString));
-		itoa(upper, ADR(UpString));
-		itoa(value, ADR(IndexString));
-		strcpy(ADR(text),ADR('Signed Subrange Index '));
-		strcat(ADR(text),ADR(IndexString));
-		strcat(ADR(text),ADR(' is outside ['));
-		strcat(ADR(text),ADR(LowString));
-		strcat(ADR(text),ADR('..'));
-		strcat(ADR(text),ADR(UpString));
-		strcat(ADR(text),ADR(']'));
-		MakeEntry(55555,value,text);		
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-		
-	ELSIF value > upper THEN
-		CheckSignedSubrange := upper;		
-		
-		itoa(lower, ADR(LowString));
-		itoa(upper, ADR(UpString));
-		itoa(value, ADR(IndexString));
-		strcpy(ADR(text),ADR('Signed Subrange Index '));
-		strcat(ADR(text),ADR(IndexString));
-		strcat(ADR(text),ADR(' is outside ['));
-		strcat(ADR(text),ADR(LowString));
-		strcat(ADR(text),ADR('..'));
-		strcat(ADR(text),ADR(UpString));
-		strcat(ADR(text),ADR(']'));
-		MakeEntry(55555,value,text);
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-	ELSE
-		CheckSignedSubrange := value;
-	END_IF
-END_FUNCTION
-
-(* Check range for subrange of unsigned data types *)
-FUNCTION CheckUnsignedSubrange
-	IF value < lower THEN
-		CheckUnsignedSubrange := lower;		
-		
-		itoa(lower, ADR(LowString));
-		itoa(upper, ADR(UpString));
-		itoa(value, ADR(IndexString));
-		strcpy(ADR(text),ADR('Unsigned Subrange Index '));
-		strcat(ADR(text),ADR(IndexString));
-		strcat(ADR(text),ADR(' is outside ['));
-		strcat(ADR(text),ADR(LowString));
-		strcat(ADR(text),ADR('..'));
-		strcat(ADR(text),ADR(UpString));
-		strcat(ADR(text),ADR(']'));
-		MakeEntry(55555,value,text);
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-		
-	ELSIF value > upper THEN
-		CheckUnsignedSubrange := upper;
-		
-		itoa(lower, ADR(LowString));
-		itoa(upper, ADR(UpString));
-		itoa(value, ADR(IndexString));
-		strcpy(ADR(text),ADR('Unsigned Subrange Index '));
-		strcat(ADR(text),ADR(IndexString));
-		strcat(ADR(text),ADR(' is outside ['));
-		strcat(ADR(text),ADR(LowString));
-		strcat(ADR(text),ADR('..'));
-		strcat(ADR(text),ADR(UpString));
-		strcat(ADR(text),ADR(']'));
-		MakeEntry(55555,value,text);
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-	ELSE
-		CheckUnsignedSubrange := value;
-	END_IF
-END_FUNCTION
-
-(* Check address when reading dynamic variables *)
-FUNCTION CheckReadAccess
-	IF address=0 THEN
-		(* TODO: Insert an appropriate code, see AutomationStudio help for further information *)
-		MakeEntry(55555,address,'Attempt to read from address of zero / NULL');
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-
-	END_IF
-
-	CheckReadAccess:=0;
-END_FUNCTION
-
-(* Check address when writing dynamic variables *)
-FUNCTION CheckWriteAccess
-	IF address=0 THEN
-		(* TODO: Insert an appropriate code, see AutomationStudio help for further information *)
-		MakeEntry(55555,address,'Attempt to write to address of zero / NULL');
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-	END_IF
-
-	CheckWriteAccess:=0;
-END_FUNCTION
-
-
-
-FUNCTION CheckBounds (* Check range for array access *)
-	IF index < lower OR index > upper THEN
-		itoa(lower, ADR(LowString));
-		itoa(upper, ADR(UpString));
-		itoa(index, ADR(IndexString));
-		CheckBounds := upper;
-		strcpy(ADR(text),ADR('Array Index '));
-		strcat(ADR(text),ADR(IndexString));
-		strcat(ADR(text),ADR(' is outside ['));
-		strcat(ADR(text),ADR(LowString));
-		strcat(ADR(text),ADR('..'));
-		strcat(ADR(text),ADR(UpString));
-		strcat(ADR(text),ADR(']'));
-		MakeEntry(55555,index,text);
-		//creating a pagefault on purpose to get the backtrace data
-		memcpy(1,1,1);
-	ELSE
-		CheckBounds := index;
-	END_IF
-END_FUNCTION
-
-FUNCTION MakeEntry (* Makes a log book entry. Note that gIecChkSec must be a global DINT! *)
-    status_name := ST_name(0,ADR(taskname),ADR(group));
-    PV_xgetadr(ADR('gIecChkSec'), ADR(pv_adr), ADR(data_len));
-    IF pv_adr > 0 AND data_len > 0 THEN
-        memcpy(ADR(SectionData),pv_adr,data_len);
-        itoa(SectionData,ADR(SectionString));
+(* Called before the division/module using a SINT value. Returns the divisor if no errors are found *)
+(* Replaces CheckDivByte, which may return incorrect results *)
+FUNCTION CheckDivSint
+    
+    IF divisor=0 THEN
+        CheckDivSint := 1;
+        MakeEntry(55555,divisor,'Divide by Zero - SINT');
+    ELSE
+        CheckDivSint := divisor;
     END_IF
+    
+END_FUNCTION
+    
+(* Called before the division/module using a USINT value. Returns the divisor if no errors are found *)
+(* Replaces CheckDivByte, which may return incorrect results *)
+FUNCTION CheckDivUsint
+    
+    IF divisor=0 THEN
+        CheckDivUsint := 1;
+        MakeEntry(55555,divisor,'Divide by Zero - USINT');
+    ELSE
+        CheckDivUsint := divisor;
+    END_IF
+    
+END_FUNCTION
+
+(* Called before the division/module using an INT value. Returns the divisor if no errors are found *)
+(* Replaces CheckDivWord, which may return incorrect results *)
+FUNCTION CheckDivInt
+    
+    IF divisor=0 THEN
+        CheckDivInt := 1;
+        MakeEntry(55555,divisor,'Divide by Zero - INT');
+    ELSE
+        CheckDivInt := divisor;
+    END_IF
+    
+END_FUNCTION
+
+(* Called before the division/module using a UINT value. Returns the divisor if no errors are found *)
+(* Replaces CheckDivWord, which may return incorrect results *)
+FUNCTION CheckDivUint
+    
+    IF divisor=0 THEN
+        CheckDivUint := 1;
+        MakeEntry(55555,divisor,'Divide by Zero - UINT');
+    ELSE
+        CheckDivUint := divisor;
+    END_IF
+    
+END_FUNCTION
+
+(* Called before the division/module using a DINT value. Returns the divisor if no errors are found *)
+(* Replaces CheckDivDWord, which may return incorrect results *)
+FUNCTION CheckDivDint
+    
+    IF divisor=0 THEN
+        CheckDivDint := 1;
+        MakeEntry(55555,divisor,'Divide by Zero - DINT');
+    ELSE
+        CheckDivDint := divisor;
+    END_IF
+    
+END_FUNCTION
+
+(* Called before the division/module using a UDINT value. Returns the divisor if no errors are found *)
+(* Replaces CheckDivDWord, which may return incorrect results *)
+FUNCTION CheckDivUdint
+    
+    IF divisor=0 THEN
+        CheckDivUdint := 1;
+        MakeEntry(55555,divisor,'Divide by Zero - UDINT');
+    ELSE
+        CheckDivUdint := divisor;
+    END_IF
+    
+END_FUNCTION
+
+(* Called before the division/module using a REAL value. Returns the divisor if no errors are found *)
+FUNCTION CheckDivReal
+    IF divisor=0 THEN
+        CheckDivReal := 1;
+        MakeEntry(55555,0,'Divide by Zero - REAL');
+    ELSE
+        CheckDivReal := divisor;
+    END_IF
+END_FUNCTION
+
+(* Called before the division/module using a LREAL value. Returns the divisor if no errors are found *)
+(* CANNOT BE USED on SG3 OR SGC targets!! *)
+FUNCTION CheckDivLReal
+    IF divisor=0 THEN
+        CheckDivLReal := 1;
+        MakeEntry(55555,0,'Divide by Zero - LREAL');
+    ELSE
+        CheckDivLReal := divisor;
+    END_IF
+END_FUNCTION
+
+(* Called before accessing an array. Returns the index if no errors are found.
+Otherwise, returns the problematic index bound *)
+FUNCTION CheckBounds
+    IF index < lower THEN
+        CheckBounds := lower;
+        brsitoa(lower, ADR(LowString));
+        brsitoa(upper, ADR(UpString));
+        brsitoa(index, ADR(IndexString));
+        brsstrcpy(ADR(ErrorText),ADR('Array Index '));
+        brsstrcat(ADR(ErrorText),ADR(IndexString));
+        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
+        brsstrcat(ADR(ErrorText),ADR(LowString));
+        brsstrcat(ADR(ErrorText),ADR('..'));
+        brsstrcat(ADR(ErrorText),ADR(UpString));
+        brsstrcat(ADR(ErrorText),ADR(']'));
+        MakeEntry(55555,index,ErrorText);
+    ELSIF index > upper THEN
+        CheckBounds := upper;
+        brsitoa(lower, ADR(LowString));
+        brsitoa(upper, ADR(UpString));
+        brsitoa(index, ADR(IndexString));
+        brsstrcpy(ADR(ErrorText),ADR('Array Index '));
+        brsstrcat(ADR(ErrorText),ADR(IndexString));
+        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
+        brsstrcat(ADR(ErrorText),ADR(LowString));
+        brsstrcat(ADR(ErrorText),ADR('..'));
+        brsstrcat(ADR(ErrorText),ADR(UpString));
+        brsstrcat(ADR(ErrorText),ADR(']'));
+        MakeEntry(55555,index,ErrorText);
+    ELSE
+        CheckBounds := index;
+    END_IF
+END_FUNCTION
+
+(* Called before write accessing an enumeration variable. Returns the value if no errors are found.
+Otherwise, returns the problematic value bound *)
+FUNCTION CheckRange
+    IF value < lower THEN
+        CheckRange := lower;
+        brsitoa(lower, ADR(LowString));
+        brsitoa(upper, ADR(UpString));
+        brsitoa(value, ADR(ValueString));
+        brsstrcpy(ADR(ErrorText),ADR('Enum Value '));
+        brsstrcat(ADR(ErrorText),ADR(ValueString));
+        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
+        brsstrcat(ADR(ErrorText),ADR(LowString));
+        brsstrcat(ADR(ErrorText),ADR('..'));
+        brsstrcat(ADR(ErrorText),ADR(UpString));
+        brsstrcat(ADR(ErrorText),ADR(']'));
+        MakeEntry(55555,value,ErrorText);	
+    ELSIF value > upper THEN
+        CheckRange := upper;
+        brsitoa(lower, ADR(LowString));
+        brsitoa(upper, ADR(UpString));
+        brsitoa(value, ADR(ValueString));
+        brsstrcpy(ADR(ErrorText),ADR('Enum Value '));
+        brsstrcat(ADR(ErrorText),ADR(ValueString));
+        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
+        brsstrcat(ADR(ErrorText),ADR(LowString));
+        brsstrcat(ADR(ErrorText),ADR('..'));
+        brsstrcat(ADR(ErrorText),ADR(UpString));
+        brsstrcat(ADR(ErrorText),ADR(']'));
+        MakeEntry(55555,value,ErrorText);
+    ELSE
+        CheckRange := value;
+    END_IF
+END_FUNCTION
+
+(* Called before write access to a variable with the data type "Subrange" if the subrange is used on a signed data type. Returns the value if no errors are found.
+Otherwise, returns the problematic value bound *)
+FUNCTION CheckSignedSubrange
+    IF value < lower THEN
+        CheckSignedSubrange := lower;
+        brsitoa(lower, ADR(LowString));
+        brsitoa(upper, ADR(UpString));
+        brsitoa(value, ADR(ValueString));
+        brsstrcpy(ADR(ErrorText),ADR('Signed Subrange Index '));
+        brsstrcat(ADR(ErrorText),ADR(ValueString));
+        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
+        brsstrcat(ADR(ErrorText),ADR(LowString));
+        brsstrcat(ADR(ErrorText),ADR('..'));
+        brsstrcat(ADR(ErrorText),ADR(UpString));
+        brsstrcat(ADR(ErrorText),ADR(']'));
+        MakeEntry(55555,value,ErrorText);	
+    ELSIF value > upper THEN
+        CheckSignedSubrange := upper;		
+        brsitoa(lower, ADR(LowString));
+        brsitoa(upper, ADR(UpString));
+        brsitoa(value, ADR(ValueString));
+        brsstrcpy(ADR(ErrorText),ADR('Signed Subrange Index '));
+        brsstrcat(ADR(ErrorText),ADR(ValueString));
+        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
+        brsstrcat(ADR(ErrorText),ADR(LowString));
+        brsstrcat(ADR(ErrorText),ADR('..'));
+        brsstrcat(ADR(ErrorText),ADR(UpString));
+        brsstrcat(ADR(ErrorText),ADR(']'));
+        MakeEntry(55555,value,ErrorText);
+    ELSE
+        CheckSignedSubrange := value;
+    END_IF
+END_FUNCTION
+
+(* Called before write access to a variable with the data type "Subrange" if the subrange is used on an unsigned data type. Returns the value if no errors are found.
+Otherwise, returns the problematic value bound *)
+FUNCTION CheckUnsignedSubrange
+    IF value < lower THEN
+        CheckUnsignedSubrange := lower;
+        brsitoa(lower, ADR(LowString));
+        brsitoa(upper, ADR(UpString));
+        brsitoa(value, ADR(ValueString));
+        brsstrcpy(ADR(ErrorText),ADR('Unsigned Subrange Index '));
+        brsstrcat(ADR(ErrorText),ADR(ValueString));
+        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
+        brsstrcat(ADR(ErrorText),ADR(LowString));
+        brsstrcat(ADR(ErrorText),ADR('..'));
+        brsstrcat(ADR(ErrorText),ADR(UpString));
+        brsstrcat(ADR(ErrorText),ADR(']'));
+        MakeEntry(55555,value,ErrorText);	
+    ELSIF value > upper THEN
+        CheckUnsignedSubrange := upper;
 		
-    strcpy(ADR(out_text),ADR(text));
-    strcat(ADR(out_text),ADR(' in task "'));
-    strcat(ADR(out_text),ADR(taskname));
-    strcat(ADR(out_text),ADR('" Section:'));
-    strcat(ADR(out_text),ADR(SectionString));
+        brsitoa(lower, ADR(LowString));
+        brsitoa(upper, ADR(UpString));
+        brsitoa(value, ADR(ValueString));
+        brsstrcpy(ADR(ErrorText),ADR('Unsigned Subrange Index '));
+        brsstrcat(ADR(ErrorText),ADR(ValueString));
+        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
+        brsstrcat(ADR(ErrorText),ADR(LowString));
+        brsstrcat(ADR(ErrorText),ADR('..'));
+        brsstrcat(ADR(ErrorText),ADR(UpString));
+        brsstrcat(ADR(ErrorText),ADR(']'));
+        MakeEntry(55555,value,ErrorText);
+    ELSE
+        CheckUnsignedSubrange := value;
+    END_IF
+END_FUNCTION
+
+(* Called before (read) accessing a memory address using a dynamic variable (ADR). Always returns 0 *)
+FUNCTION CheckReadAccess
+    IF address=0 THEN
+        MakeEntry(55555,address,'Attempt to read from address of zero');
+    END_IF
+
+    CheckReadAccess:=0;
+END_FUNCTION
+
+(* Called before (write) accessing a memory address using a dynamic variable (ADR). Always returns 0 *)
+FUNCTION CheckWriteAccess
+    IF address=0 THEN
+        MakeEntry(55555,address,'Attempt to write to address of zero');
+    END_IF
+
+    CheckWriteAccess:=0;
+END_FUNCTION
+
+(* Creates a Logger entry detailing any errors. Returns a pointer to out_text *)
+FUNCTION MakeEntry
+    status_name := ST_name(0,ADR(taskname),ADR(group));
+    
+    StrCatToMaxLen(ADR(out_text),ADR(text), 32); // Errxwarning() errorstring max 32 characters! See AS Help
+    StrCatToMaxLen(ADR(out_text),ADR(' in task "'), 32);
+    
+    IF status_name = 0 THEN
+        StrCatToMaxLen(ADR(out_text),ADR(taskname), 32);
+    ELSE
+        StrCatToMaxLen(ADR(out_text),ADR('UNKNOWN'), 32);
+    END_IF;
+    
     MakeEntry := ADR(out_text);	
+    ERRxwarning(number,index,ADR(out_text)); // Causes log entry, but not Service Mode
+    
+    // The sys_lib logging functions are mostly replaced with the ArEventLog library, but are still available
+    // as of AS 6.1. I like the idea of replacing these to be more future-proof, but the single function call
+    // with no setup required (i.e. logbook creation) makes a lot more sense for this library.
+    
+    #if defined(_CHECKLIB_FORCE_RESTART)
+    brsmemcpy(1,1,1); // Create a pagefault on purpose to get the backtrace data
+    #endif
 	
-    // Making Logger entry & restarting
-    ERRxwarning(number,index,ADR(out_text));	
-    // Change Note DarjiV: Change ERRxfatel_FB to ERRxwarning_FB because to get additional data.
-    // 						Because I want TO finish this function and go back TO whichever function started this function and cause a pagefault there to get backtrace to the CODE.
-    //						Now the AdvanceIEC Check library will give a pagefault location in CODE & the values of those variable when the pagefault happened.
-	
+END_FUNCTION
+
+(* Concatenates two strings, but keeps the result under the max allowed length.
+Returns the length of the new string *)
+FUNCTION StrCatToMaxLen
+    
+    destLen := brsstrlen(pDest);
+    srcLen := brsstrlen(pSrc);
+    StrCatToMaxLen := destLen;
+    
+    IF (destLen >= MaxLength) OR ((srcLen + destLen) > MaxLength) THEN
+        RETURN;
+    END_IF;
+    
+    brsstrcat(pDest, pSrc);
+    StrCatToMaxLen := destLen + srcLen;
+
 END_FUNCTION
