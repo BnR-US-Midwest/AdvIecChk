@@ -1,13 +1,15 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: IecCheck
- * File: IecCheck.fun
- * Author: adamsm
- * Created: October 03, 2012
- ********************************************************************
- * Functions and function blocks of library IecCheck
- ********************************************************************)
+(************************************************************************************
+
+Advanced IEC Check Functions Library
+
+File: AdvIecChk.fun
+Description: Declaration of library functions
+Authors:
+    - Matt Adams (B&R Industrial Automation)
+    - Varad Darji (B&R Industrial Automation)
+    - Marcus Mangel (B&R Industrial Automation)
+
+************************************************************************************)
 
 FUNCTION CheckDivDWord : UDINT (* Check divisor for DINT and UDINT division *)
 	VAR_INPUT
