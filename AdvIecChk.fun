@@ -4,6 +4,12 @@ Advanced IEC Check Functions Library
 
 File: AdvIecChk.fun
 Description: Declaration of library functions
+
+!! Note: See the Automation Studio Help file before modifying these declarations!   !!
+!! Most of these functions must be declared exactly as-is in order for the          !!
+!! processor to recognize them as check functions. The implementation can change    !!
+!! but the declaration cannot!                                                      !!
+
 Authors:
     - Matt Adams (B&R Industrial Automation)
     - Varad Darji (B&R Industrial Automation)
@@ -143,7 +149,7 @@ FUNCTION MakeEntry : UDINT (*Creates a Logger entry detailing any errors. Return
 	END_VAR
 END_FUNCTION
 
-FUNCTION StrCatToMaxLen : UDINT (*Concatenates two strings, but keeps the result under the max allowed length. Returns the length of the new string*)
+FUNCTION StrCatToMaxLen : UDINT (*Concatenates two strings, but keeps the result under the max allowed length. Also ensures the the string ends in a zero (null). Returns the length of the new string*)
 	VAR_INPUT
 		pDest : UDINT; (*Address of the destination string (will be modified)*)
 		pSrc : UDINT; (*Address of the source string (not modified)*)
@@ -152,5 +158,6 @@ FUNCTION StrCatToMaxLen : UDINT (*Concatenates two strings, but keeps the result
 	VAR
 		destLen : UDINT; (*[INTERNAL] Holds the length of the string at pDest*)
 		srcLen : UDINT; (*[INTERNAL] Holds the length of the string at pSrc*)
+		lenToCopy : UDINT; (*[INTERNAL] Number of bytes to be copied, in the case of a partial string*)
 	END_VAR
 END_FUNCTION

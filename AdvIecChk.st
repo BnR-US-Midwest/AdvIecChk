@@ -230,7 +230,6 @@ FUNCTION CheckUnsignedSubrange
         MakeEntry(55555,value,ErrorText);	
     ELSIF value > upper THEN
         CheckUnsignedSubrange := upper;
-		
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
@@ -248,18 +247,24 @@ FUNCTION CheckUnsignedSubrange
 END_FUNCTION
 
 (* Called before (read) accessing a memory address using a dynamic variable (ADR). Always returns 0 *)
+// Note: We cannot substitute in any addresses here
+// This always returns a zero address
+// That means a pagefault will occur no matter what, but at least we can log why
 FUNCTION CheckReadAccess
     IF address=0 THEN
-        MakeEntry(55555,address,'Try to read from ADR of zero');
+        MakeEntry(55555,address,'Read from zero ADR');
     END_IF
 
     CheckReadAccess:=0;
 END_FUNCTION
 
 (* Called before (write) accessing a memory address using a dynamic variable (ADR). Always returns 0 *)
+// Note: We cannot substitute in any addresses here
+// This always returns a zero address
+// That means a pagefault will occur no matter what, but at least we can log why
 FUNCTION CheckWriteAccess
     IF address=0 THEN
-        MakeEntry(55555,address,'Try to write to ADR of zero');
+        MakeEntry(55555,address,'Write zero ADR');
     END_IF
 
     CheckWriteAccess:=0;
@@ -294,18 +299,16 @@ FUNCTION MakeEntry
 END_FUNCTION
 
 (* Concatenates two strings, but keeps the result under the max allowed length.
+Also ensures the the string ends in a zero (null).
 Returns the length of the new string *)
 FUNCTION StrCatToMaxLen
     
     destLen := brsstrlen(pDest);
     srcLen := brsstrlen(pSrc);
-    StrCatToMaxLen := destLen;
     
-    IF (destLen >= MaxLength) OR ((srcLen + destLen) > MaxLength) THEN
-        RETURN;
-    END_IF;
-    
-    brsstrcat(pDest, pSrc);
-    StrCatToMaxLen := destLen + srcLen;
+    lenToCopy := MIN(srcLen,(MaxLength - destLen)); // Copy the full src string if possible, otherwise copy a partial string
+    brsmemcpy(pDest + destLen, pSrc, lenToCopy);
+    brsmemset(pDest + destLen + lenToCopy, 0, 1); // Ensure trailing null character
+    StrCatToMaxLen := destLen + lenToCopy;
 
 END_FUNCTION
