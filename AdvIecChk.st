@@ -91,30 +91,35 @@ END_FUNCTION
 
 (* Called before the division/module using a REAL value. Returns the divisor if no errors are found *)
 FUNCTION CheckDivReal
+    
     IF divisor=0 THEN
         CheckDivReal := 1;
         MakeEntry(55555,0,'REAL div by 0');
     ELSE
         CheckDivReal := divisor;
     END_IF
+    
 END_FUNCTION
 
 (* Called before the division/module using a LREAL value. Returns the divisor if no errors are found *)
 (* CANNOT BE USED on SG3 OR SGC targets!! *)
 FUNCTION CheckDivLReal
+    
     IF divisor=0 THEN
         CheckDivLReal := 1;
         MakeEntry(55555,0,'LREAL div by 0');
     ELSE
         CheckDivLReal := divisor;
     END_IF
+    
 END_FUNCTION
 
 (* Called before accessing an array. Returns the index if no errors are found.
 Otherwise, returns the problematic index bound *)
 FUNCTION CheckBounds
+    
     IF index < lower THEN
-        CheckBounds := lower;
+        CheckBounds := lower; // Unless: See end of function
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(index, ADR(IndexString));
@@ -127,7 +132,7 @@ FUNCTION CheckBounds
         brsstrcat(ADR(ErrorText),ADR(']'));
         MakeEntry(55555,index,ErrorText);
     ELSIF index > upper THEN
-        CheckBounds := upper;
+        CheckBounds := upper; // Unless: See end of function
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(index, ADR(IndexString));
@@ -142,13 +147,21 @@ FUNCTION CheckBounds
     ELSE
         CheckBounds := index;
     END_IF
+    
+    #if defined(_CHECKLIB_KEEP_INDEX_VALUES)
+    // Don't modify accessed index
+    // This may lead to undefined behavior!
+    CheckBounds := index;
+    #endif
+    
 END_FUNCTION
 
 (* Called before write accessing an enumeration variable. Returns the value if no errors are found.
 Otherwise, returns the problematic value bound *)
 FUNCTION CheckRange
+    
     IF value < lower THEN
-        CheckRange := lower;
+        CheckRange := lower; // Unless: See end of function
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
@@ -161,7 +174,7 @@ FUNCTION CheckRange
         brsstrcat(ADR(ErrorText),ADR(']'));
         MakeEntry(55555,value,ErrorText);	
     ELSIF value > upper THEN
-        CheckRange := upper;
+        CheckRange := upper; // Unless: See end of function
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
@@ -176,13 +189,21 @@ FUNCTION CheckRange
     ELSE
         CheckRange := value;
     END_IF
+    
+    #if defined(_CHECKLIB_KEEP_INDEX_VALUES)
+    // Don't modify accessed value
+    // This may lead to undefined behavior!
+    CheckRange := value;
+    #endif
+    
 END_FUNCTION
 
 (* Called before write access to a variable with the data type "Subrange" if the subrange is used on a signed data type. Returns the value if no errors are found.
 Otherwise, returns the problematic value bound *)
 FUNCTION CheckSignedSubrange
+    
     IF value < lower THEN
-        CheckSignedSubrange := lower;
+        CheckSignedSubrange := lower; // Unless: See end of function
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
@@ -195,7 +216,7 @@ FUNCTION CheckSignedSubrange
         brsstrcat(ADR(ErrorText),ADR(']'));
         MakeEntry(55555,value,ErrorText);	
     ELSIF value > upper THEN
-        CheckSignedSubrange := upper;		
+        CheckSignedSubrange := upper; // Unless: See end of function	
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
@@ -210,13 +231,21 @@ FUNCTION CheckSignedSubrange
     ELSE
         CheckSignedSubrange := value;
     END_IF
+    
+    #if defined(_CHECKLIB_KEEP_INDEX_VALUES)
+    // Don't modify accessed value
+    // This may lead to undefined behavior!
+    CheckSignedSubrange := value;
+    #endif
+    
 END_FUNCTION
 
 (* Called before write access to a variable with the data type "Subrange" if the subrange is used on an unsigned data type. Returns the value if no errors are found.
 Otherwise, returns the problematic value bound *)
 FUNCTION CheckUnsignedSubrange
+    
     IF value < lower THEN
-        CheckUnsignedSubrange := lower;
+        CheckUnsignedSubrange := lower; // Unless: See end of function
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
@@ -229,7 +258,7 @@ FUNCTION CheckUnsignedSubrange
         brsstrcat(ADR(ErrorText),ADR(']'));
         MakeEntry(55555,value,ErrorText);	
     ELSIF value > upper THEN
-        CheckUnsignedSubrange := upper;
+        CheckUnsignedSubrange := upper; // Unless: See end of function
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
@@ -244,6 +273,13 @@ FUNCTION CheckUnsignedSubrange
     ELSE
         CheckUnsignedSubrange := value;
     END_IF
+    
+    #if defined(_CHECKLIB_KEEP_INDEX_VALUES)
+    // Don't modify accessed value
+    // This may lead to undefined behavior!
+    CheckUnsignedSubrange := value;
+    #endif
+    
 END_FUNCTION
 
 (* Called before (read) accessing a memory address using a dynamic variable (ADR). Returns the input address *)
@@ -251,12 +287,14 @@ END_FUNCTION
 // This always returns a zero address
 // That means a pagefault will occur no matter what, but at least we can log why
 FUNCTION CheckReadAccess
+    
     IF address=0 THEN
         MakeEntry(55555,address,'Read from zero ADR');
         CheckReadAccess:=0;
     ELSE
         CheckReadAccess:=address;
     END_IF
+    
 END_FUNCTION
 
 (* Called before (write) accessing a memory address using a dynamic variable (ADR). Returns the input address *)
@@ -264,16 +302,19 @@ END_FUNCTION
 // This always returns a zero address
 // That means a pagefault will occur no matter what, but at least we can log why
 FUNCTION CheckWriteAccess
+    
     IF address=0 THEN
         MakeEntry(55555,address,'Write zero ADR'); 
         CheckWriteAccess:=0;
     ELSE
         CheckWriteAccess:=address;
     END_IF
+    
 END_FUNCTION
 
 (* Creates a Logger entry detailing any errors. Returns a pointer to out_text *)
 FUNCTION MakeEntry
+    
     // Check inputs
     IF (number < ERRXWARNING_MIN_ERRNR) OR (number > ERRXWARNING_MIN_ERRNR) THEN
         MakeEntry := 0;
