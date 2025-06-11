@@ -4,6 +4,7 @@
   <Files>
     <File Description="Exported functions and function blocks">AdvIecChk.fun</File>
     <File Description="Implementation file">AdvIecChk.st</File>
+    <File Description="Constant declarations">AdvIecChk.var</File>
   </Files>
   <Dependencies>
     <Dependency ObjectName="Sys_Lib" />

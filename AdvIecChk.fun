@@ -72,10 +72,10 @@ FUNCTION CheckBounds : DINT (*Called before accessing an array. Returns the inde
 		upper : DINT; (*Upper bound (highest possible index) of the array*)
 	END_VAR
 	VAR
-		LowString : STRING[11]; (*[INTERNAL] Lower bound as a string*)
-		UpString : STRING[11]; (*[INTERNAL] Upper bound as a string*)
-		IndexString : STRING[11]; (*[INTERNAL] Index as a string*)
-		ErrorText : STRING[50]; (*[INTERNAL] Error text created for a long entry based on input data*)
+		LowString : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Lower bound as a string*)
+		UpString : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Upper bound as a string*)
+		IndexString : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Index as a string*)
+		ErrorText : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Error text created for a long entry based on input data*)
 	END_VAR
 END_FUNCTION
 
@@ -86,10 +86,10 @@ FUNCTION CheckRange : DINT (*Called before write accessing an enumeration variab
 		upper : DINT; (*Upper bound (highest possible value) of the enumeration*)
 	END_VAR
 	VAR
-		LowString : STRING[11]; (*[INTERNAL] Lower bound as a string*)
-		UpString : STRING[11]; (*[INTERNAL] Upper bound as a string*)
-		ValueString : STRING[11]; (*[INTERNAL] Value as a string*)
-		ErrorText : STRING[50]; (*[INTERNAL] Error text created for a long entry based on input data*)
+		LowString : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Lower bound as a string*)
+		UpString : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Upper bound as a string*)
+		ValueString : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Value as a string*)
+		ErrorText : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Error text created for a long entry based on input data*)
 	END_VAR
 END_FUNCTION
 
@@ -101,10 +101,10 @@ Otherwise, returns the problematic value bound*)
 		upper : DINT; (*Upper bound (highest possible index) of the subrange*)
 	END_VAR
 	VAR
-		LowString : STRING[11]; (*[INTERNAL] Lower bound as a string*)
-		UpString : STRING[11]; (*[INTERNAL] Lower bound as a string*)
-		ValueString : STRING[11]; (*[INTERNAL] Value as a string*)
-		ErrorText : STRING[50]; (*[INTERNAL] Error text created for a long entry based on input data*)
+		LowString : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Lower bound as a string*)
+		UpString : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Lower bound as a string*)
+		ValueString : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Value as a string*)
+		ErrorText : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Error text created for a long entry based on input data*)
 	END_VAR
 END_FUNCTION
 
@@ -123,13 +123,13 @@ Otherwise, returns the problematic value bound*)
 	END_VAR
 END_FUNCTION
 
-FUNCTION CheckReadAccess : UDINT (*Called before (read) accessing a memory address using a dynamic variable (ADR). Always returns 0*)
+FUNCTION CheckReadAccess : UDINT (*Called before (read) accessing a memory address using a dynamic variable (ADR). Returns the input address*)
 	VAR_INPUT
 		address : UDINT; (*Address of the memory area being accessed*)
 	END_VAR
 END_FUNCTION
 
-FUNCTION CheckWriteAccess : UDINT (*Called before (write) accessing a memory address using a dynamic variable (ADR). Always returns 0*)
+FUNCTION CheckWriteAccess : UDINT (*Called before (write) accessing a memory address using a dynamic variable (ADR). Returns the input address*)
 	VAR_INPUT
 		address : UDINT; (*Address of the memory area being accessed*)
 	END_VAR
@@ -139,13 +139,13 @@ FUNCTION MakeEntry : UDINT (*Creates a Logger entry detailing any errors. Return
 	VAR_INPUT
 		number : UINT; (*Error number entered in the logbook. Valid values are 50000 to 59999*)
 		index : DINT; (*Value which caused the error (Additional Information for the logbook)*)
-		text : STRING[50]; (*Message string for the logbook. Additional characters will be added by the function before publishing the logbook entry*)
+		text : STRING[ADVIECCHK_MAX_STRING_LEN]; (*Message string for the logbook. Additional characters will be added by the function before publishing the logbook entry*)
 	END_VAR
 	VAR
-		taskname : STRING[30]; (*[INTERNAL] Name of the task which caused the error. From ST_name()*)
+		taskname : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Name of the task which caused the error. From ST_name()*)
 		group : USINT; (*[INTERNAL] Task group number - See docs for ST_name in sys_lib. This will always be zero*)
 		status_name : UINT; (*[INTERNAL] Return status of ST_name()*)
-		out_text : STRING[32]; (*[INTERNAL] Final error message text that is written to the logbook. Must be null terminated and maximum 32 characters (see ERRxwarning() docs)*)
+		out_text : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Final error message text that is written to the logbook. Must be null terminated and maximum 32 characters (see ERRxwarning() docs)*)
 	END_VAR
 END_FUNCTION
 

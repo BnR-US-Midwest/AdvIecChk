@@ -246,45 +246,55 @@ FUNCTION CheckUnsignedSubrange
     END_IF
 END_FUNCTION
 
-(* Called before (read) accessing a memory address using a dynamic variable (ADR). Always returns 0 *)
+(* Called before (read) accessing a memory address using a dynamic variable (ADR). Returns the input address *)
 // Note: We cannot substitute in any addresses here
 // This always returns a zero address
 // That means a pagefault will occur no matter what, but at least we can log why
 FUNCTION CheckReadAccess
     IF address=0 THEN
         MakeEntry(55555,address,'Read from zero ADR');
+        CheckReadAccess:=0;
+    ELSE
+        CheckReadAccess:=address;
     END_IF
-
-    CheckReadAccess:=0;
 END_FUNCTION
 
-(* Called before (write) accessing a memory address using a dynamic variable (ADR). Always returns 0 *)
+(* Called before (write) accessing a memory address using a dynamic variable (ADR). Returns the input address *)
 // Note: We cannot substitute in any addresses here
 // This always returns a zero address
 // That means a pagefault will occur no matter what, but at least we can log why
 FUNCTION CheckWriteAccess
     IF address=0 THEN
-        MakeEntry(55555,address,'Write zero ADR');
+        MakeEntry(55555,address,'Write zero ADR'); 
+        CheckWriteAccess:=0;
+    ELSE
+        CheckWriteAccess:=address;
     END_IF
-
-    CheckWriteAccess:=0;
 END_FUNCTION
 
 (* Creates a Logger entry detailing any errors. Returns a pointer to out_text *)
 FUNCTION MakeEntry
-    status_name := ST_name(0,ADR(taskname),ADR(group));
-    
-    StrCatToMaxLen(ADR(out_text),ADR(text), 32); // Errxwarning() errorstring max 32 characters! See AS Help
-    StrCatToMaxLen(ADR(out_text),ADR(' > task '), 32);
-    
-    IF status_name = 0 THEN
-        StrCatToMaxLen(ADR(out_text),ADR('"'), 32);
-        StrCatToMaxLen(ADR(out_text),ADR(taskname), 32);
-        StrCatToMaxLen(ADR(out_text),ADR('"'), 32);
-    ELSE
-        StrCatToMaxLen(ADR(out_text),ADR('UNKNOWN'), 32);
+    // Check inputs
+    IF (number < ERRXWARNING_MIN_ERRNR) OR (number > ERRXWARNING_MIN_ERRNR) THEN
+        MakeEntry := 0;
+        RETURN;
     END_IF;
     
+    // Get task name and add to error text string
+    status_name := ST_name(0,ADR(taskname),ADR(group));
+    
+    StrCatToMaxLen(ADR(out_text),ADR(text), ADVIECCHK_MAX_STRING_LEN); // Errxwarning() errorstring max 32 characters! See AS Help
+    StrCatToMaxLen(ADR(out_text),ADR(' > task '), ADVIECCHK_MAX_STRING_LEN);
+    
+    IF status_name = 0 THEN
+        StrCatToMaxLen(ADR(out_text),ADR('"'), ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(out_text),ADR(taskname), ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(out_text),ADR('"'), ADVIECCHK_MAX_STRING_LEN);
+    ELSE
+        StrCatToMaxLen(ADR(out_text),ADR('UNKNOWN'), ADVIECCHK_MAX_STRING_LEN);
+    END_IF;
+    
+    // Finalize logbook entry
     MakeEntry := ADR(out_text);	
     ERRxwarning(number,index,ADR(out_text)); // Causes log entry, but not Service Mode
     
@@ -302,6 +312,11 @@ END_FUNCTION
 Also ensures the the string ends in a zero (null).
 Returns the length of the new string *)
 FUNCTION StrCatToMaxLen
+    
+    IF (pDest = 0) OR (pSrc = 0) OR (MaxLength = 0) THEN
+        StrCatToMaxLen := 0;
+        RETURN;
+    END_IF;
     
     destLen := brsstrlen(pDest);
     srcLen := brsstrlen(pSrc);
