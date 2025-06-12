@@ -9,5 +9,6 @@
   <Dependencies>
     <Dependency ObjectName="Sys_Lib" />
     <Dependency ObjectName="AsBrStr" />
+    <Dependency ObjectName="ArEventLog" />
   </Dependencies>
 </Library>

@@ -17,7 +17,7 @@ FUNCTION CheckDivSint
     
     IF divisor=0 THEN
         CheckDivSint := 1;
-        MakeEntry(55555,divisor,'SINT div by 0');
+        MakeEntry(55555,'SINT division by 0');
     ELSE
         CheckDivSint := divisor;
     END_IF
@@ -30,7 +30,7 @@ FUNCTION CheckDivUsint
     
     IF divisor=0 THEN
         CheckDivUsint := 1;
-        MakeEntry(55555,divisor,'USINT div by 0');
+        MakeEntry(55555,'USINT division by 0');
     ELSE
         CheckDivUsint := divisor;
     END_IF
@@ -43,7 +43,7 @@ FUNCTION CheckDivInt
     
     IF divisor=0 THEN
         CheckDivInt := 1;
-        MakeEntry(55555,divisor,'INT div by 0');
+        MakeEntry(55555,'INT division by 0');
     ELSE
         CheckDivInt := divisor;
     END_IF
@@ -56,7 +56,7 @@ FUNCTION CheckDivUint
     
     IF divisor=0 THEN
         CheckDivUint := 1;
-        MakeEntry(55555,divisor,'UINT div by 0');
+        MakeEntry(55555,'UINT division by 0');
     ELSE
         CheckDivUint := divisor;
     END_IF
@@ -69,7 +69,7 @@ FUNCTION CheckDivDint
     
     IF divisor=0 THEN
         CheckDivDint := 1;
-        MakeEntry(55555,divisor,'DINT div by 0');
+        MakeEntry(55555,'DINT division by 0');
     ELSE
         CheckDivDint := divisor;
     END_IF
@@ -82,7 +82,7 @@ FUNCTION CheckDivUdint
     
     IF divisor=0 THEN
         CheckDivUdint := 1;
-        MakeEntry(55555,divisor,'UDINT div by 0');
+        MakeEntry(55555,'UDINT division by 0');
     ELSE
         CheckDivUdint := divisor;
     END_IF
@@ -94,7 +94,7 @@ FUNCTION CheckDivReal
     
     IF divisor=0 THEN
         CheckDivReal := 1;
-        MakeEntry(55555,0,'REAL div by 0');
+        MakeEntry(55555,'REAL division by 0');
     ELSE
         CheckDivReal := divisor;
     END_IF
@@ -107,7 +107,7 @@ FUNCTION CheckDivLReal
     
     IF divisor=0 THEN
         CheckDivLReal := 1;
-        MakeEntry(55555,0,'LREAL div by 0');
+        MakeEntry(55555,'LREAL division by 0');
     ELSE
         CheckDivLReal := divisor;
     END_IF
@@ -123,27 +123,27 @@ FUNCTION CheckBounds
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(index, ADR(IndexString));
-        brsstrcpy(ADR(ErrorText),ADR('Arr Idx '));
+        brsstrcpy(ADR(ErrorText),ADR('Array Index '));
         StrCatToMaxLen(ADR(ErrorText),ADR(IndexString),ADVIECCHK_MAX_STRING_LEN);
-        StrCatToMaxLen(ADR(ErrorText),ADR(' not in ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside range ['),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
-        MakeEntry(55555,index,ErrorText);
+        MakeEntry(55555,ErrorText);
     ELSIF index > upper THEN
         CheckBounds := upper; // Unless: See end of function
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(index, ADR(IndexString));
-        brsstrcpy(ADR(ErrorText),ADR('Arr Idx '));
+        brsstrcpy(ADR(ErrorText),ADR('Array Index '));
         StrCatToMaxLen(ADR(ErrorText),ADR(IndexString),ADVIECCHK_MAX_STRING_LEN);
-        StrCatToMaxLen(ADR(ErrorText),ADR(' not in ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside range ['),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
-        MakeEntry(55555,index,ErrorText);
+        MakeEntry(55555,ErrorText);
     ELSE
         CheckBounds := index;
     END_IF
@@ -165,27 +165,27 @@ FUNCTION CheckRange
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
-        brsstrcpy(ADR(ErrorText),ADR('Enum Val '));
+        brsstrcpy(ADR(ErrorText),ADR('Enumeration Value '));
         StrCatToMaxLen(ADR(ErrorText),ADR(ValueString),ADVIECCHK_MAX_STRING_LEN);
-        StrCatToMaxLen(ADR(ErrorText),ADR(' not in ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside range ['),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
-        MakeEntry(55555,value,ErrorText);	
+        MakeEntry(55555,ErrorText);	
     ELSIF value > upper THEN
         CheckRange := upper; // Unless: See end of function
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
-        brsstrcpy(ADR(ErrorText),ADR('Enum Val '));
+        brsstrcpy(ADR(ErrorText),ADR('Enumeration Value '));
         StrCatToMaxLen(ADR(ErrorText),ADR(ValueString),ADVIECCHK_MAX_STRING_LEN);
-        StrCatToMaxLen(ADR(ErrorText),ADR(' not in ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside range ['),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
-        MakeEntry(55555,value,ErrorText);
+        MakeEntry(55555,ErrorText);
     ELSE
         CheckRange := value;
     END_IF
@@ -207,27 +207,27 @@ FUNCTION CheckSignedSubrange
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
-        brsstrcpy(ADR(ErrorText),ADR('Subrng Idx '));
+        brsstrcpy(ADR(ErrorText),ADR('Signed Subrange Index '));
         StrCatToMaxLen(ADR(ErrorText),ADR(ValueString),ADVIECCHK_MAX_STRING_LEN);
-        StrCatToMaxLen(ADR(ErrorText),ADR(' not in ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside range ['),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
-        MakeEntry(55555,value,ErrorText);	
+        MakeEntry(55555,ErrorText);	
     ELSIF value > upper THEN
         CheckSignedSubrange := upper; // Unless: See end of function	
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
-        StrCatToMaxLen(ADR(ErrorText),ADR('Subrng Idx '),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR('Signed Subrange Index '),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(ValueString),ADVIECCHK_MAX_STRING_LEN);
-        StrCatToMaxLen(ADR(ErrorText),ADR(' not in ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside range ['),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
-        MakeEntry(55555,value,ErrorText);
+        MakeEntry(55555,ErrorText);
     ELSE
         CheckSignedSubrange := value;
     END_IF
@@ -249,27 +249,27 @@ FUNCTION CheckUnsignedSubrange
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
-        brsstrcpy(ADR(ErrorText),ADR('Subrng Idx '));
+        brsstrcpy(ADR(ErrorText),ADR('Unsigned Subrange Index '));
         StrCatToMaxLen(ADR(ErrorText),ADR(ValueString),ADVIECCHK_MAX_STRING_LEN);
-        StrCatToMaxLen(ADR(ErrorText),ADR(' not in ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside range ['),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
-        MakeEntry(55555,value,ErrorText);	
+        MakeEntry(55555,ErrorText);	
     ELSIF value > upper THEN
         CheckUnsignedSubrange := upper; // Unless: See end of function
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
-        brsstrcpy(ADR(ErrorText),ADR('Subrng Idx '));
+        brsstrcpy(ADR(ErrorText),ADR('Unsigned Subrange Index '));
         StrCatToMaxLen(ADR(ErrorText),ADR(ValueString),ADVIECCHK_MAX_STRING_LEN);
-        StrCatToMaxLen(ADR(ErrorText),ADR(' not in ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside range ['),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
-        MakeEntry(55555,value,ErrorText);
+        MakeEntry(55555,ErrorText);
     ELSE
         CheckUnsignedSubrange := value;
     END_IF
@@ -289,7 +289,7 @@ END_FUNCTION
 FUNCTION CheckReadAccess
     
     IF address=0 THEN
-        MakeEntry(55555,address,'Read from zero ADR');
+        MakeEntry(55555,'Read from memory address of zero');
         CheckReadAccess:=0;
     ELSE
         CheckReadAccess:=address;
@@ -304,7 +304,7 @@ END_FUNCTION
 FUNCTION CheckWriteAccess
     
     IF address=0 THEN
-        MakeEntry(55555,address,'Write zero ADR'); 
+        MakeEntry(55555,'Write to memory address of zero'); 
         CheckWriteAccess:=0;
     ELSE
         CheckWriteAccess:=address;
@@ -315,33 +315,37 @@ END_FUNCTION
 (* Creates a Logger entry detailing any errors. Returns a pointer to out_text *)
 FUNCTION MakeEntry
     
-    // Check inputs
-    IF (number < ERRXWARNING_MIN_ERRNR) OR (number > ERRXWARNING_MAX_ERRNR) THEN
-        MakeEntry := 0;
-        RETURN;
-    END_IF;
-    
     // Get task name and add to error text string
     status_name := ST_name(0,ADR(taskname),ADR(group));
     
-    StrCatToMaxLen(ADR(out_text),ADR(text), ADVIECCHK_MAX_STRING_LEN); // Errxwarning() errorstring max 32 characters! See AS Help
-    StrCatToMaxLen(ADR(out_text),ADR(' > task '), ADVIECCHK_MAX_STRING_LEN);
-    
+    brsmemset(ADR(out_text),0,SIZEOF(out_text)); // We need to make sure the data is null terminated, so start with all zeros
+    StrCatToMaxLen(ADR(out_text),ADR(ErrorText), ADVIECCHK_MAX_STRING_LEN);
+
     IF status_name = 0 THEN
+        StrCatToMaxLen(ADR(out_text),ADR(' in task '), ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(out_text),ADR('"'), ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(out_text),ADR(taskname), ADVIECCHK_MAX_STRING_LEN);
         StrCatToMaxLen(ADR(out_text),ADR('"'), ADVIECCHK_MAX_STRING_LEN);
-    ELSE
-        StrCatToMaxLen(ADR(out_text),ADR('UNKNOWN'), ADVIECCHK_MAX_STRING_LEN);
     END_IF;
     
-    // Finalize logbook entry
-    MakeEntry := brsstrlen(ADR(out_text));	
-    ERRxwarning(number,index,ADR(out_text)); // Causes log entry, but not Service Mode
+    // Finalize logbook entry - Write to the existing User logbook
+    // It would be possible to create our own logbook, but that would be much more complex
+    error_facility := 0; // See ArEventLog documentation on the 32-bit event ID
     
-    // The sys_lib logging functions are mostly replaced with the ArEventLog library, but are still available
-    // as of AS 6.1. I like the idea of replacing these to be more future-proof, but the single function call
-    // with no setup required (i.e. logbook creation) makes a lot more sense for this library.
+    fb_ArEventLogGetIdent.Execute := TRUE;
+    fb_ArEventLogGetIdent.Name := '$$arlogusr'; // This is the only system logbook we can access
+    fb_ArEventLogGetIdent();
+    
+    fb_ArEventLogWrite.Execute := TRUE;
+    fb_ArEventLogWrite.Ident := fb_ArEventLogGetIdent.Ident;
+    fb_ArEventLogWrite.EventID := ArEventLogMakeEventID(arEVENTLOG_SEVERITY_ERROR,error_facility,ErrorCode);
+    fb_ArEventLogWrite.AddData := ADR(out_text);
+    fb_ArEventLogWrite.AddDataFormat := arEVENTLOG_ADDFORMAT_TEXT;
+    fb_ArEventLogWrite.AddDataSize := MIN(SIZEOF(out_text),brsstrlen(ADR(out_text))+1); // If string doesn't fill the whole buffer, take just it's length
+    fb_ArEventLogWrite.ObjectID := 'AdvIecChk';                                         // plus the next char (should be a zero, this is the trailing null char)
+    fb_ArEventLogWrite();
+    
+    MakeEntry := brsstrlen(ADR(out_text));
     
     #if defined(_CHECKLIB_FORCE_RESTART)
     brsmemcpy(1,1,1); // Create a pagefault on purpose to get the backtrace data

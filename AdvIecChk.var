@@ -8,9 +8,6 @@ Authors:
     - Marcus Mangel (B&R Industrial Automation)
 
 ************************************************************************************)
-
 VAR CONSTANT
-	ADVIECCHK_MAX_STRING_LEN : USINT := 32; (*Maximum character length for the error info string. See ERRxwarning documentation*)
-	ERRXWARNING_MIN_ERRNR : UINT := 16#C350; (*Minimum allowed logbook error number. See ERRxwarning documentation*)
-	ERRXWARNING_MAX_ERRNR : UINT := 16#EA5F; (*Maximum allowed logbook error number. See ERRxwarning documentation*)
+	ADVIECCHK_MAX_STRING_LEN : USINT := 64; (*Maximum character length for the error info string. Used to prevent buffer overflow*)
 END_VAR

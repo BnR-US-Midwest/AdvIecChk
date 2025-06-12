@@ -116,10 +116,10 @@ Otherwise, returns the problematic value bound*)
 		upper : UDINT; (*Upper bound (highest possible index) of the subrange*)
 	END_VAR
 	VAR
-		LowString : STRING[11]; (*[INTERNAL] Lower bound as a string*)
-		UpString : STRING[11]; (*[INTERNAL] Upper bound as a string*)
-		ValueString : STRING[11]; (*[INTERNAL] Value as a string*)
-		ErrorText : STRING[50]; (*[INTERNAL] Error text created for a long entry based on input data*)
+		LowString : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Lower bound as a string*)
+		UpString : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Upper bound as a string*)
+		ValueString : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Value as a string*)
+		ErrorText : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Error text created for a long entry based on input data*)
 	END_VAR
 END_FUNCTION
 
@@ -137,15 +137,17 @@ END_FUNCTION
 
 FUNCTION MakeEntry : UDINT (*Creates a Logger entry detailing any errors. Returns a pointer to out_text*)
 	VAR_INPUT
-		number : UINT; (*Error number entered in the logbook. Valid values are 50000 to 59999*)
-		index : DINT; (*Value which caused the error (Additional Information for the logbook)*)
-		text : STRING[ADVIECCHK_MAX_STRING_LEN]; (*Message string for the logbook. Additional characters will be added by the function before publishing the logbook entry*)
+		ErrorCode : UINT; (*Error code that is used to generate a logbook Entry ID. Valid values are 0 to 65535*)
+		ErrorText : STRING[ADVIECCHK_MAX_STRING_LEN]; (*Message string for the logbook. Additional characters will be added by the function before publishing the logbook entry*)
 	END_VAR
 	VAR
 		taskname : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Name of the task which caused the error. From ST_name()*)
 		group : USINT; (*[INTERNAL] Task group number - See docs for ST_name in sys_lib. This will always be zero*)
 		status_name : UINT; (*[INTERNAL] Return status of ST_name()*)
 		out_text : STRING[ADVIECCHK_MAX_STRING_LEN]; (*[INTERNAL] Final error message text that is written to the logbook. Must be null terminated and maximum 32 characters (see ERRxwarning() docs)*)
+		error_facility : UINT; (*[INTERNAL] Facility used to create the log Event ID. See ArEventLog documentation*)
+		fb_ArEventLogGetIdent : ArEventLogGetIdent; (*[INTERNAL] Function block to get the ident of a logbook*)
+		fb_ArEventLogWrite : ArEventLogWrite; (*[INTERNAL] Function block to write a log entry to the logbook*)
 	END_VAR
 END_FUNCTION
 
