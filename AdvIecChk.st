@@ -124,12 +124,12 @@ FUNCTION CheckBounds
         brsitoa(upper, ADR(UpString));
         brsitoa(index, ADR(IndexString));
         brsstrcpy(ADR(ErrorText),ADR('Array Index '));
-        brsstrcat(ADR(ErrorText),ADR(IndexString));
-        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
-        brsstrcat(ADR(ErrorText),ADR(LowString));
-        brsstrcat(ADR(ErrorText),ADR('..'));
-        brsstrcat(ADR(ErrorText),ADR(UpString));
-        brsstrcat(ADR(ErrorText),ADR(']'));
+        StrCatToMaxLen(ADR(ErrorText),ADR(IndexString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
         MakeEntry(55555,index,ErrorText);
     ELSIF index > upper THEN
         CheckBounds := upper; // Unless: See end of function
@@ -137,12 +137,12 @@ FUNCTION CheckBounds
         brsitoa(upper, ADR(UpString));
         brsitoa(index, ADR(IndexString));
         brsstrcpy(ADR(ErrorText),ADR('Array Index '));
-        brsstrcat(ADR(ErrorText),ADR(IndexString));
-        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
-        brsstrcat(ADR(ErrorText),ADR(LowString));
-        brsstrcat(ADR(ErrorText),ADR('..'));
-        brsstrcat(ADR(ErrorText),ADR(UpString));
-        brsstrcat(ADR(ErrorText),ADR(']'));
+        StrCatToMaxLen(ADR(ErrorText),ADR(IndexString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
         MakeEntry(55555,index,ErrorText);
     ELSE
         CheckBounds := index;
@@ -166,12 +166,12 @@ FUNCTION CheckRange
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
         brsstrcpy(ADR(ErrorText),ADR('Enum Value '));
-        brsstrcat(ADR(ErrorText),ADR(ValueString));
-        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
-        brsstrcat(ADR(ErrorText),ADR(LowString));
-        brsstrcat(ADR(ErrorText),ADR('..'));
-        brsstrcat(ADR(ErrorText),ADR(UpString));
-        brsstrcat(ADR(ErrorText),ADR(']'));
+        StrCatToMaxLen(ADR(ErrorText),ADR(ValueString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
         MakeEntry(55555,value,ErrorText);	
     ELSIF value > upper THEN
         CheckRange := upper; // Unless: See end of function
@@ -179,12 +179,12 @@ FUNCTION CheckRange
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
         brsstrcpy(ADR(ErrorText),ADR('Enum Value '));
-        brsstrcat(ADR(ErrorText),ADR(ValueString));
-        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
-        brsstrcat(ADR(ErrorText),ADR(LowString));
-        brsstrcat(ADR(ErrorText),ADR('..'));
-        brsstrcat(ADR(ErrorText),ADR(UpString));
-        brsstrcat(ADR(ErrorText),ADR(']'));
+        StrCatToMaxLen(ADR(ErrorText),ADR(ValueString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
         MakeEntry(55555,value,ErrorText);
     ELSE
         CheckRange := value;
@@ -208,25 +208,25 @@ FUNCTION CheckSignedSubrange
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
         brsstrcpy(ADR(ErrorText),ADR('Signed Subrange Index '));
-        brsstrcat(ADR(ErrorText),ADR(ValueString));
-        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
-        brsstrcat(ADR(ErrorText),ADR(LowString));
-        brsstrcat(ADR(ErrorText),ADR('..'));
-        brsstrcat(ADR(ErrorText),ADR(UpString));
-        brsstrcat(ADR(ErrorText),ADR(']'));
+        StrCatToMaxLen(ADR(ErrorText),ADR(ValueString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
         MakeEntry(55555,value,ErrorText);	
     ELSIF value > upper THEN
         CheckSignedSubrange := upper; // Unless: See end of function	
         brsitoa(lower, ADR(LowString));
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
-        brsstrcpy(ADR(ErrorText),ADR('Signed Subrange Index '));
-        brsstrcat(ADR(ErrorText),ADR(ValueString));
-        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
-        brsstrcat(ADR(ErrorText),ADR(LowString));
-        brsstrcat(ADR(ErrorText),ADR('..'));
-        brsstrcat(ADR(ErrorText),ADR(UpString));
-        brsstrcat(ADR(ErrorText),ADR(']'));
+        StrCatToMaxLen(ADR(ErrorText),ADR('Signed Subrange Index '),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(ValueString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
         MakeEntry(55555,value,ErrorText);
     ELSE
         CheckSignedSubrange := value;
@@ -250,12 +250,12 @@ FUNCTION CheckUnsignedSubrange
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
         brsstrcpy(ADR(ErrorText),ADR('Unsigned Subrange Index '));
-        brsstrcat(ADR(ErrorText),ADR(ValueString));
-        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
-        brsstrcat(ADR(ErrorText),ADR(LowString));
-        brsstrcat(ADR(ErrorText),ADR('..'));
-        brsstrcat(ADR(ErrorText),ADR(UpString));
-        brsstrcat(ADR(ErrorText),ADR(']'));
+        StrCatToMaxLen(ADR(ErrorText),ADR(ValueString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
         MakeEntry(55555,value,ErrorText);	
     ELSIF value > upper THEN
         CheckUnsignedSubrange := upper; // Unless: See end of function
@@ -263,12 +263,12 @@ FUNCTION CheckUnsignedSubrange
         brsitoa(upper, ADR(UpString));
         brsitoa(value, ADR(ValueString));
         brsstrcpy(ADR(ErrorText),ADR('Unsigned Subrange Index '));
-        brsstrcat(ADR(ErrorText),ADR(ValueString));
-        brsstrcat(ADR(ErrorText),ADR(' is outside ['));
-        brsstrcat(ADR(ErrorText),ADR(LowString));
-        brsstrcat(ADR(ErrorText),ADR('..'));
-        brsstrcat(ADR(ErrorText),ADR(UpString));
-        brsstrcat(ADR(ErrorText),ADR(']'));
+        StrCatToMaxLen(ADR(ErrorText),ADR(ValueString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(' is outside ['),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(LowString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR('..'),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(UpString),ADVIECCHK_MAX_STRING_LEN);
+        StrCatToMaxLen(ADR(ErrorText),ADR(']'),ADVIECCHK_MAX_STRING_LEN);
         MakeEntry(55555,value,ErrorText);
     ELSE
         CheckUnsignedSubrange := value;
@@ -316,7 +316,7 @@ END_FUNCTION
 FUNCTION MakeEntry
     
     // Check inputs
-    IF (number < ERRXWARNING_MIN_ERRNR) OR (number > ERRXWARNING_MIN_ERRNR) THEN
+    IF (number < ERRXWARNING_MIN_ERRNR) OR (number > ERRXWARNING_MAX_ERRNR) THEN
         MakeEntry := 0;
         RETURN;
     END_IF;
@@ -336,7 +336,7 @@ FUNCTION MakeEntry
     END_IF;
     
     // Finalize logbook entry
-    MakeEntry := ADR(out_text);	
+    MakeEntry := brsstrlen(ADR(out_text));	
     ERRxwarning(number,index,ADR(out_text)); // Causes log entry, but not Service Mode
     
     // The sys_lib logging functions are mostly replaced with the ArEventLog library, but are still available
