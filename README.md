@@ -4,6 +4,8 @@ This is a library for B&R controllers. It is installed via Automation Studio for
 
 For sample usage of this library, as well as unit tests, see the [Advanced IEC Check Library project](https://github.com/BnR-US-Midwest/AdvIecCheckProject).
 
+This library uses preprocessor directives within Structured Text code. Ensure these are enabled in your Automation Studio project! To do this, go to Project -> Settings. On the IEC compliance tab, check "Allow preprocessor directives".
+
 ## How This Library Works
 
 The IEC Check functions in this library are recognized by the processor and are called automatically before every one of their respective operations. For example, the CheckDivReal function is called before any division operation on REAL datatypes. This does not need to be done by the user. The purpose of these automatically-called functions is to catch an issue (i.e. division by zero) before it occurs, to safely mitigate the issue before it causes a memory access violation (i.e. pagefault), and to notify the programmer about the issue.
